@@ -86,3 +86,23 @@ async def test_get_watermark_not_found(client: AsyncClient, db_pool):
     response = await client.get("/exports/watermark", headers=headers)
     assert response.status_code == 404
     assert "No watermark found for consumer" in response.json()["detail"]
+
+@pytest.mark.asyncio
+async def test_get_watermark_success(client: AsyncClient, db_pool):
+    headers = {"X-Consumer-ID": "test-consumer-watermark"}
+    from datetime import datetime, timezone
+    dummy_time = datetime(2026, 5, 20, 12, 0, 0, tzinfo=timezone.utc)
+    
+    async with db_pool.acquire() as conn:
+        await conn.execute("DELETE FROM watermarks WHERE consumer_id = $1", "test-consumer-watermark")
+        await conn.execute(
+            "INSERT INTO watermarks (consumer_id, last_exported_at, updated_at) VALUES ($1, $2, NOW())",
+            "test-consumer-watermark", dummy_time
+        )
+        
+    response = await client.get("/exports/watermark", headers=headers)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["consumerId"] == "test-consumer-watermark"
+    assert data["lastExportedAt"] == "2026-05-20T12:00:00Z"
+

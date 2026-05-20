@@ -29,7 +29,7 @@ def get_consumer_id(x_consumer_id: str = Header(None, alias="X-Consumer-ID")) ->
 async def health():
     return {
         "status": "ok",
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }
 
 @app.post("/exports/full", status_code=status.HTTP_202_ACCEPTED)
@@ -121,9 +121,11 @@ async def get_watermark(consumer_id: str = Depends(get_consumer_id)):
                 detail=f"No watermark found for consumer: {consumer_id}"
             )
         
-        last_exported_at = row["last_exported_at"].isoformat()
+        last_exported = row["last_exported_at"].astimezone(timezone.utc)
+        last_exported_at = last_exported.isoformat().replace("+00:00", "Z")
         return {
             "consumerId": consumer_id,
             "lastExportedAt": last_exported_at
         }
+
 

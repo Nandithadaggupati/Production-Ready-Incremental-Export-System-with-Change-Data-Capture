@@ -94,8 +94,8 @@ async def run_export_job(job_id: str, consumer_id: str, export_type: str, output
                         r_name = record["name"]
                         r_email = record["email"]
                         # ISO 8601 timestamps
-                        r_created = record["created_at"].isoformat()
-                        r_updated = record["updated_at"].isoformat()
+                        r_created = record["created_at"].astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+                        r_updated = record["updated_at"].astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
                         r_deleted = record["is_deleted"]
 
                         # Track maximum updated_at
