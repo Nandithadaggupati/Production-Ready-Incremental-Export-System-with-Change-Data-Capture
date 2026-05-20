@@ -1,0 +1,17 @@
+# Output files
+output/
+!output/.gitkeep
+
+# Environment files
+.env
+
+# Python caching
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/

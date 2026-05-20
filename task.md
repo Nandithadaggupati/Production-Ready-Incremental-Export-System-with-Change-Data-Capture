@@ -1,0 +1,24 @@
+# Tasks: CDC Incremental Export System
+
+- [x] Project Setup & Core Configuration
+  - [x] Create project subdirectory at `C:\Users\nandi\.gemini\antigravity\scratch\cdc-export-system`
+  - [x] Write `.env.example`
+  - [x] Write `.gitignore`
+  - [x] Create empty `output` folder with `.gitkeep`
+- [x] Database Setup & Seeding
+  - [x] Write `seeds/01_init.sql` schema and seed script (100,000+ records, idempotent, indexes)
+- [x] Backend Application Implementation
+  - [x] Enhance `app/main.py` with custom `get_consumer_id` dependency validation for headers (`400 Bad Request` instead of `422 Unprocessable Entity`)
+- [x] Dependency & Container Configuration
+  - [x] Write `requirements.txt`
+  - [x] Write `Dockerfile`
+  - [x] Write `docker-compose.yml`
+- [x] Testing Suite (Goal: >= 70% Coverage)
+  - [x] Write `tests/conftest.py`
+  - [x] Write `tests/test_api.py`
+  - [x] Write `tests/test_worker.py`
+  - [x] Run tests inside container and verify coverage
+- [x] Documentation & Final Verification
+  - [x] Write `README.md`
+  - [x] Build and verify full pipeline manually
+  - [x] Walkthrough generation
